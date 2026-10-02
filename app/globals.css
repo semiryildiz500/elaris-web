@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fbf8f3;
+  --foreground: #2b2420;
+  --muted: #6b6055;
+
+  --color-cream: #fbf8f3;
+  --color-sand: #efe6d8;
+  --color-beige: #e8dcc8;
+  --color-powder: #f3e8e4;
+  --color-gold: #b08d57;
+  --color-gold-light: #cdab74;
+  --color-bronze: #96723c;
+  --color-ink: #2b2420;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-cream: var(--color-cream);
+  --color-sand: var(--color-sand);
+  --color-beige: var(--color-beige);
+  --color-powder: var(--color-powder);
+  --color-gold: var(--color-gold);
+  --color-gold-light: var(--color-gold-light);
+  --color-bronze: var(--color-bronze);
+  --color-ink: var(--color-ink);
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-display);
+}
+
+* {
+  border-color: var(--color-beige);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.is-visible {
+  animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fade-scale {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.reveal.reveal-media.is-visible {
+  animation: fade-scale 1.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
