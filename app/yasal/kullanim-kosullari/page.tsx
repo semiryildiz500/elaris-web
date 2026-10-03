@@ -59,6 +59,7 @@ export default function TermsOfUsePage() {
         </p>
       </LegalSection>
 
+      {/* TODO: Yetkili mahkeme ili, işletmenin kayıtlı/yerleşim yeri bilgisi netleşince doldurulmalı. */}
       <LegalSection heading="6. Uygulanacak Hukuk">
         <p>
           İşbu Kullanım Koşulları Türkiye Cumhuriyeti hukukuna tabidir.

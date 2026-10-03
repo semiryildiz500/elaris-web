@@ -1,37 +1,44 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { legalPages } from "@/lib/legal-pages";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
 export default function LegalPage({
   title,
   updated,
+  locale = "tr",
   children,
 }: {
   title: string;
   updated?: string;
+  locale?: Locale;
   children: ReactNode;
 }) {
+  const t = getDictionary(locale).legalPage;
+  const homeBase = locale === "en" ? "/en" : "/";
+  const isEn = locale === "en";
+
   return (
     <div className="bg-cream">
       <div className="mx-auto max-w-5xl px-6 py-16 sm:px-10 sm:py-24">
         <Link
-          href="/"
+          href={homeBase}
           className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-ink/50 transition-colors hover:text-gold"
         >
-          ← Ana Sayfaya Dön
+          {t.backHome}
         </Link>
 
         <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[2fr_1fr]">
           <article className="min-w-0">
             <p className="text-xs font-medium uppercase tracking-[0.35em] text-gold">
-              Yasal
+              {t.eyebrow}
             </p>
             <h1 className="mt-4 font-serif text-3xl leading-snug text-ink sm:text-4xl">
               {title}
             </h1>
             {updated && (
               <p className="mt-3 text-xs text-ink/40">
-                Son güncelleme: {updated}
+                {t.updated} {updated}
               </p>
             )}
 
@@ -40,25 +47,22 @@ export default function LegalPage({
             </div>
 
             <p className="mt-16 border-t border-beige pt-6 text-xs leading-relaxed text-ink/40">
-              Bu sayfa taslak niteliğindedir; şirket/veri sorumlusu bilgileri
-              ve hizmet koşullarına ilişkin [DOLDURULACAK] olarak işaretlenmiş
-              alanlar doldurulmadan ve ilgili mevzuata uygunluğu bir hukuk
-              danışmanı tarafından teyit edilmeden yayınlanmamalıdır.
+              {t.draftNotice}
             </p>
           </article>
 
           <nav className="h-fit rounded-2xl border border-beige bg-white/60 p-6 lg:sticky lg:top-28">
             <p className="text-xs font-medium uppercase tracking-[0.25em] text-ink/40">
-              Diğer Belgeler
+              {t.otherDocs}
             </p>
             <ul className="mt-4 space-y-3">
               {legalPages.map((page) => (
                 <li key={page.slug}>
                   <Link
-                    href={`/yasal/${page.slug}`}
+                    href={`${locale === "en" ? "/en" : ""}/yasal/${page.slug}`}
                     className="text-sm text-ink/70 transition-colors hover:text-gold"
                   >
-                    {page.shortTitle}
+                    {isEn ? page.shortTitleEn : page.shortTitle}
                   </Link>
                 </li>
               ))}
@@ -95,10 +99,11 @@ export function LegalList({ items }: { items: ReactNode[] }) {
   );
 }
 
-export function FillIn() {
+export function FillIn({ locale = "tr" }: { locale?: Locale }) {
+  const t = getDictionary(locale).legalPage;
   return (
     <span className="rounded bg-gold/10 px-1.5 py-0.5 text-xs font-medium text-gold">
-      [DOLDURULACAK]
+      {t.fillIn}
     </span>
   );
 }

@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Gizlilik Politikası | ELARIS",
 };
 
+// TODO: Henüz bilinmeyen alanlar — yayın öncesi tamamlanmalı: e-posta,
+// barındırma/teknik hizmet sağlayıcısının adı.
 export default function PrivacyPolicyPage() {
   return (
     <LegalPage title="Gizlilik Politikası">
@@ -88,7 +90,15 @@ export default function PrivacyPolicyPage() {
       <LegalSection heading="8. İletişim">
         <p>
           Gizlilik uygulamalarımıza ilişkin sorularınız için{" "}
-          <FillIn /> adresinden bize ulaşabilirsiniz.
+          <a
+            href="https://wa.me/905348843774"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold underline underline-offset-2"
+          >
+            WhatsApp (+90 534 884 37 74)
+          </a>{" "}
+          üzerinden veya <FillIn /> adresinden bize ulaşabilirsiniz.
         </p>
       </LegalSection>
     </LegalPage>

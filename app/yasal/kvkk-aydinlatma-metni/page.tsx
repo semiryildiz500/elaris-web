@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "KVKK Aydınlatma Metni | ELARIS",
 };
 
+// TODO: Henüz bilinmeyen, elimizdeki bilgilerle doldurulamayan alanlar —
+// yayın öncesi tamamlanmalı: açık adres, e-posta, vergi no / T.C. kimlik no,
+// barındırma/teknik hizmet sağlayıcısının adı.
 export default function KvkkPage() {
   return (
     <LegalPage title="KVKK Aydınlatma Metni">
@@ -20,7 +23,17 @@ export default function KvkkPage() {
           items={[
             <>Adres: <FillIn /></>,
             <>E-posta: <FillIn /></>,
-            <>Telefon: <FillIn /></>,
+            <>
+              Telefon / WhatsApp:{" "}
+              <a
+                href="https://wa.me/905348843774"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gold underline underline-offset-2"
+              >
+                +90 534 884 37 74
+              </a>
+            </>,
             <>Vergi No / T.C. Kimlik No: <FillIn /></>,
           ]}
         />
@@ -127,7 +140,16 @@ export default function KvkkPage() {
       <LegalSection heading="9. Başvuru Yöntemi">
         <p>
           Yukarıda sayılan haklarınızı kullanmak için talebinizi{" "}
-          <FillIn /> adresine yazılı olarak iletebilirsiniz.
+          <FillIn /> adresine veya{" "}
+          <a
+            href="https://wa.me/905348843774"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold underline underline-offset-2"
+          >
+            WhatsApp (+90 534 884 37 74)
+          </a>{" "}
+          üzerinden yazılı olarak iletebilirsiniz.
         </p>
       </LegalSection>
 

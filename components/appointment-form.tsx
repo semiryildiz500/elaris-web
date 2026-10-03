@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { services, type Service } from "@/lib/data";
+import { services as servicesTr, type Service } from "@/lib/data";
+import { servicesEn } from "@/lib/data.en";
+import { getDictionary, type Locale } from "@/lib/i18n";
 import {
   addBookedSlot,
   getAvailableSlots,
@@ -24,7 +26,14 @@ type Step =
   | "payment"
   | "success";
 
-export default function AppointmentForm() {
+export default function AppointmentForm({
+  locale = "tr",
+}: {
+  locale?: Locale;
+}) {
+  const dict = getDictionary(locale).booking;
+  const services = locale === "en" ? servicesEn : servicesTr;
+
   const searchParams = useSearchParams();
   const preselectedSlug = services.find(
     (s) => s.slug === searchParams.get("service")
@@ -64,17 +73,17 @@ export default function AppointmentForm() {
     return (
       <div className="rounded-2xl border border-gold/20 bg-white/70 px-8 py-12 text-center shadow-[0_18px_45px_-28px_rgba(43,36,32,0.3)]">
         <p className="font-serif text-xl leading-relaxed text-ink sm:text-2xl">
-          Randevu talebiniz alınmıştır.
+          {dict.success.title}
         </p>
         <p className="mt-3 text-base leading-relaxed text-ink/70">
-          En kısa sürede sizinle iletişime geçilecektir.
+          {dict.success.subtitle}
         </p>
         <button
           type="button"
           onClick={reset}
           className="mt-8 inline-flex items-center justify-center rounded-full border border-gold px-6 py-2.5 text-xs font-semibold uppercase tracking-wide text-gold transition-colors hover:bg-gold hover:text-cream"
         >
-          Başka bir randevu talebi oluştur
+          {dict.success.resetButton}
         </button>
       </div>
     );
@@ -82,7 +91,7 @@ export default function AppointmentForm() {
 
   return (
     <div className="rounded-2xl border border-gold/20 bg-white/70 p-6 text-left shadow-[0_18px_45px_-28px_rgba(43,36,32,0.3)] sm:p-10">
-      <StepIndicator step={step} />
+      <StepIndicator step={step} locale={locale} />
 
       {service && step !== "service" && (
         <div className="mt-6 flex items-center justify-between gap-4 rounded-xl border border-gold/30 bg-gold/5 px-4 py-3">
@@ -102,7 +111,7 @@ export default function AppointmentForm() {
             }}
             className="shrink-0 text-xs font-medium text-gold underline underline-offset-2 transition-colors hover:text-ink"
           >
-            Değiştir
+            {dict.change}
           </button>
         </div>
       )}
@@ -110,7 +119,9 @@ export default function AppointmentForm() {
       <div className="mt-6">
         {step === "service" && (
           <ServiceStep
+            services={services}
             value={serviceSlug}
+            locale={locale}
             onSelect={(slug) => {
               setServiceSlug(slug);
               setStep("date");
@@ -122,6 +133,7 @@ export default function AppointmentForm() {
           <DateStep
             date={date}
             today={today}
+            locale={locale}
             onBack={() => setStep("service")}
             onContinue={(d) => {
               setDate(d);
@@ -136,6 +148,7 @@ export default function AppointmentForm() {
             date={date}
             service={service}
             bookedSlots={bookedSlots}
+            locale={locale}
             onBack={() => setStep("date")}
             onContinue={(t) => {
               setTime(t);
@@ -148,6 +161,7 @@ export default function AppointmentForm() {
           <ContactStep
             fullName={fullName}
             whatsapp={whatsapp}
+            locale={locale}
             onBack={() => setStep("time")}
             onContinue={(values) => {
               setFullName(values.fullName);
@@ -162,6 +176,7 @@ export default function AppointmentForm() {
             service={service}
             date={date}
             time={time}
+            locale={locale}
             onBack={() => setStep("contact")}
             onContinue={() => setStep("payment")}
           />
@@ -169,6 +184,7 @@ export default function AppointmentForm() {
 
         {step === "payment" && service && (
           <PaymentStep
+            locale={locale}
             onBack={() => setStep("summary")}
             onConfirm={() => {
               addBookedSlot({
@@ -185,20 +201,20 @@ export default function AppointmentForm() {
   );
 }
 
-const STEP_LABELS: { key: Step; label: string }[] = [
-  { key: "service", label: "Çalışma" },
-  { key: "date", label: "Tarih" },
-  { key: "time", label: "Saat" },
-  { key: "contact", label: "İletişim" },
-  { key: "summary", label: "Özet" },
-  { key: "payment", label: "Ödeme" },
-];
-
-function StepIndicator({ step }: { step: Step }) {
-  const activeIndex = STEP_LABELS.findIndex((s) => s.key === step);
+function StepIndicator({ step, locale }: { step: Step; locale: Locale }) {
+  const dict = getDictionary(locale).booking;
+  const stepLabels: { key: Step; label: string }[] = [
+    { key: "service", label: dict.steps.service },
+    { key: "date", label: dict.steps.date },
+    { key: "time", label: dict.steps.time },
+    { key: "contact", label: dict.steps.contact },
+    { key: "summary", label: dict.steps.summary },
+    { key: "payment", label: dict.steps.payment },
+  ];
+  const activeIndex = stepLabels.findIndex((s) => s.key === step);
   return (
     <ol className="flex flex-wrap items-center gap-x-2 gap-y-2 text-[11px] font-medium uppercase tracking-[0.12em] text-ink/40">
-      {STEP_LABELS.map((s, i) => (
+      {stepLabels.map((s, i) => (
         <li key={s.key} className="flex items-center gap-2">
           <span
             className={
@@ -209,9 +225,7 @@ function StepIndicator({ step }: { step: Step }) {
           >
             {i + 1}. {s.label}
           </span>
-          {i < STEP_LABELS.length - 1 && (
-            <span className="text-ink/20">—</span>
-          )}
+          {i < stepLabels.length - 1 && <span className="text-ink/20">—</span>}
         </li>
       ))}
     </ol>
@@ -219,16 +233,21 @@ function StepIndicator({ step }: { step: Step }) {
 }
 
 function ServiceStep({
+  services,
   value,
+  locale,
   onSelect,
 }: {
+  services: Service[];
   value: string | undefined;
+  locale: Locale;
   onSelect: (slug: string) => void;
 }) {
+  const dict = getDictionary(locale).booking;
   return (
     <div className="flex flex-col gap-3">
       <span className="text-xs font-medium uppercase tracking-[0.15em] text-ink/60">
-        Hangi çalışma için randevu almak istersiniz?
+        {dict.sessionPrompt}
       </span>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         {services.map((s) => (
@@ -256,21 +275,24 @@ function ServiceStep({
 function DateStep({
   date,
   today,
+  locale,
   onBack,
   onContinue,
 }: {
   date: string;
   today: string;
+  locale: Locale;
   onBack: () => void;
   onContinue: (date: string) => void;
 }) {
+  const dict = getDictionary(locale).booking;
   const [value, setValue] = useState(date);
 
   return (
     <div className="flex flex-col gap-4">
       <label className="flex flex-col gap-2">
         <span className="text-xs font-medium uppercase tracking-[0.15em] text-ink/60">
-          Tarih seçin
+          {dict.dateLabel}
         </span>
         <input
           type="date"
@@ -280,13 +302,11 @@ function DateStep({
           onChange={(e) => setValue(e.target.value)}
           className={inputClasses}
         />
-        <span className="text-xs text-ink/45">
-          Hafta içi 19:00–22:30, hafta sonu 10:00–22:30 arası randevu
-          alınabilir.
-        </span>
+        <span className="text-xs text-ink/45">{dict.hoursNote}</span>
       </label>
 
       <StepNav
+        locale={locale}
         onBack={onBack}
         onContinue={() => value && onContinue(value)}
         continueDisabled={!value}
@@ -299,15 +319,18 @@ function TimeStep({
   date,
   service,
   bookedSlots,
+  locale,
   onBack,
   onContinue,
 }: {
   date: string;
   service: Service;
   bookedSlots: BookedSlot[];
+  locale: Locale;
   onBack: () => void;
   onContinue: (time: string) => void;
 }) {
+  const dict = getDictionary(locale).booking;
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     // "Şu an" (Europe/Istanbul) istemcide hesaplanır; sunucu ile uyumlu
@@ -328,12 +351,12 @@ function TimeStep({
   return (
     <div className="flex flex-col gap-4">
       <span className="text-xs font-medium uppercase tracking-[0.15em] text-ink/60">
-        Uygun saat seçin ({service.duration})
+        {dict.timeLabelPrefix} ({service.duration})
       </span>
 
       {slots.length === 0 ? (
         <p className="rounded-xl border border-beige bg-cream/60 p-4 text-sm text-ink/60">
-          Bu tarihte uygun saat kalmamış. Lütfen başka bir tarih seçin.
+          {dict.noSlots}
         </p>
       ) : (
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
@@ -355,6 +378,7 @@ function TimeStep({
       )}
 
       <StepNav
+        locale={locale}
         onBack={onBack}
         onContinue={() => selected && onContinue(selected)}
         continueDisabled={!selected}
@@ -366,14 +390,17 @@ function TimeStep({
 function ContactStep({
   fullName,
   whatsapp,
+  locale,
   onBack,
   onContinue,
 }: {
   fullName: string;
   whatsapp: string;
+  locale: Locale;
   onBack: () => void;
   onContinue: (values: { fullName: string; whatsapp: string }) => void;
 }) {
+  const dict = getDictionary(locale).booking;
   const [name, setName] = useState(fullName);
   const [phone, setPhone] = useState(whatsapp);
 
@@ -387,13 +414,13 @@ function ContactStep({
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <label className="flex flex-col gap-2">
         <span className="text-xs font-medium uppercase tracking-[0.15em] text-ink/60">
-          Ad Soyad
+          {dict.nameLabel}
         </span>
         <input
           type="text"
           required
           autoComplete="name"
-          placeholder="Adınız ve soyadınız"
+          placeholder={dict.namePlaceholder}
           value={name}
           onChange={(e) => setName(e.target.value)}
           className={inputClasses}
@@ -402,13 +429,13 @@ function ContactStep({
 
       <label className="flex flex-col gap-2">
         <span className="text-xs font-medium uppercase tracking-[0.15em] text-ink/60">
-          WhatsApp Numarası
+          {dict.whatsappLabel}
         </span>
         <input
           type="tel"
           required
           autoComplete="tel"
-          placeholder="05xx xxx xx xx"
+          placeholder={dict.whatsappPlaceholder}
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           className={inputClasses}
@@ -416,6 +443,7 @@ function ContactStep({
       </label>
 
       <StepNav
+        locale={locale}
         onBack={onBack}
         continueType="submit"
         continueDisabled={!name || !phone}
@@ -428,15 +456,19 @@ function SummaryStep({
   service,
   date,
   time,
+  locale,
   onBack,
   onContinue,
 }: {
   service: Service;
   date: string;
   time: string;
+  locale: Locale;
   onBack: () => void;
   onContinue: () => void;
 }) {
+  const dict = getDictionary(locale).booking.summary;
+  const homeBase = locale === "en" ? "/en" : "";
   const [legalChecked, setLegalChecked] = useState({
     onBilgilendirme: false,
     mesafeliSozlesme: false,
@@ -449,25 +481,29 @@ function SummaryStep({
   return (
     <div className="flex flex-col gap-6">
       <dl className="space-y-3 rounded-xl border border-beige bg-cream/60 p-5">
-        <SummaryRow label="Çalışma" value={service.name} />
-        <SummaryRow label="Açıklama" value={service.description} />
-        <SummaryRow label="Tarih" value={date} />
-        <SummaryRow label="Saat" value={time} />
-        <SummaryRow label="Süre" value={service.duration} />
-        <SummaryRow label="Toplam Ücret" value={service.price} />
-        <SummaryRow label="Hizmeti Sunan" value="Fethiye Karseri / ELARIS" />
+        <SummaryRow label={dict.serviceLabel} value={service.name} />
+        <SummaryRow label={dict.descriptionLabel} value={service.description} />
+        <SummaryRow label={dict.dateLabel} value={date} />
+        <SummaryRow label={dict.timeLabel} value={time} />
+        <SummaryRow label={dict.durationLabel} value={service.duration} />
+        <SummaryRow label={dict.priceLabel} value={service.price} />
+        <SummaryRow label={dict.providerLabel} value={dict.providerValue} />
       </dl>
 
       <p className="text-xs leading-relaxed text-ink/50">
-        Bu çalışmanın kapsamı ve önemli bilgilendirme için{" "}
+        {dict.scopeNotePrefix}{" "}
         <Link
-          href="/yasal/calismalarin-kapsami-ve-onemli-bilgilendirme"
+          href={`${homeBase}/yasal/calismalarin-kapsami-ve-onemli-bilgilendirme`}
           target="_blank"
           className="text-gold underline underline-offset-2"
         >
-          Çalışmaların Kapsamı ve Önemli Bilgilendirme
+          {dict.scopeNoteLink}
         </Link>{" "}
-        sayfasını inceleyiniz.
+        {dict.scopeNoteSuffix}
+      </p>
+
+      <p className="rounded-xl border border-gold/20 bg-gold/5 p-4 text-xs leading-relaxed text-ink/70">
+        {dict.cancellationNotice}
       </p>
 
       <div className="space-y-3">
@@ -478,13 +514,13 @@ function SummaryStep({
           }
         >
           <Link
-            href="/yasal/on-bilgilendirme-formu"
+            href={`${homeBase}/yasal/on-bilgilendirme-formu`}
             target="_blank"
             className="text-gold underline underline-offset-2"
           >
-            Ön Bilgilendirme Formu
+            {dict.preInfoLink}
           </Link>
-          &apos;nu okudum ve onaylıyorum.
+          {dict.preInfoSuffix}
         </LegalCheckbox>
 
         <LegalCheckbox
@@ -494,13 +530,13 @@ function SummaryStep({
           }
         >
           <Link
-            href="/yasal/mesafeli-hizmet-sozlesmesi"
+            href={`${homeBase}/yasal/mesafeli-hizmet-sozlesmesi`}
             target="_blank"
             className="text-gold underline underline-offset-2"
           >
-            Mesafeli Hizmet Sözleşmesi
+            {dict.agreementLink}
           </Link>
-          &apos;ni okudum ve onaylıyorum.
+          {dict.agreementSuffix}
         </LegalCheckbox>
 
         <LegalCheckbox
@@ -510,13 +546,13 @@ function SummaryStep({
           }
         >
           <Link
-            href="/yasal/iptal-degisiklik-cayma-iade-politikasi"
+            href={`${homeBase}/yasal/iptal-degisiklik-cayma-iade-politikasi`}
             target="_blank"
             className="text-gold underline underline-offset-2"
           >
-            İptal, Değişiklik, Cayma ve İade Politikası
+            {dict.cancellationLink}
           </Link>
-          &apos;nı okudum ve onaylıyorum.
+          {dict.cancellationSuffix}
         </LegalCheckbox>
 
         <LegalCheckbox
@@ -524,31 +560,29 @@ function SummaryStep({
           onChange={(v) => setLegalChecked((c) => ({ ...c, kvkk: v }))}
         >
           <Link
-            href="/yasal/kvkk-aydinlatma-metni"
+            href={`${homeBase}/yasal/kvkk-aydinlatma-metni`}
             target="_blank"
             className="text-gold underline underline-offset-2"
           >
-            KVKK Aydınlatma Metni
+            {dict.kvkkLink}
           </Link>
-          &apos;ni okudum ve bilgilendirildim.
+          {dict.kvkkSuffix}
         </LegalCheckbox>
 
         <div className="my-2 border-t border-beige" />
 
         <LegalCheckbox checked={marketingOptIn} onChange={setMarketingOptIn}>
-          Kampanya ve bilgilendirme mesajları almak istiyorum{" "}
-          <span className="text-ink/40">
-            (opsiyonel, randevu için gerekli değildir)
-          </span>
-          .
+          {dict.marketingText}{" "}
+          <span className="text-ink/40">{dict.marketingNote}</span>
         </LegalCheckbox>
       </div>
 
       <StepNav
+        locale={locale}
         onBack={onBack}
         onContinue={onContinue}
         continueDisabled={!allRequiredChecked}
-        continueLabel="Ödemeye Geç"
+        continueLabel={dict.continueLabel}
       />
     </div>
   );
@@ -564,39 +598,40 @@ function SummaryStep({
  * kaydeder.
  */
 function PaymentStep({
+  locale,
   onBack,
   onConfirm,
 }: {
+  locale: Locale;
   onBack: () => void;
   onConfirm: () => void;
 }) {
+  const dict = getDictionary(locale).booking.payment;
   return (
     <div className="flex flex-col gap-5">
       <div className="rounded-xl border border-beige bg-cream/60 p-5">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-ink/50">
-          Ödeme
+          {dict.heading}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-ink/60">
-          Online ödeme altyapımız yakında etkinleştirilecektir. Şu an için
-          randevu talebiniz, ödeme olmadan alınır; onay ve ödeme detayları
-          için sizinle iletişime geçilecektir.
+          {dict.note}
         </p>
 
         <div className="mt-5 space-y-3 opacity-50">
           <input
             disabled
-            placeholder="Kart Numarası"
+            placeholder={dict.cardNumberPlaceholder}
             className={`${inputClasses} cursor-not-allowed`}
           />
           <div className="grid grid-cols-2 gap-3">
             <input
               disabled
-              placeholder="AA/YY"
+              placeholder={dict.expiryPlaceholder}
               className={`${inputClasses} cursor-not-allowed`}
             />
             <input
               disabled
-              placeholder="CVC"
+              placeholder={dict.cvcPlaceholder}
               className={`${inputClasses} cursor-not-allowed`}
             />
           </div>
@@ -604,27 +639,31 @@ function PaymentStep({
       </div>
 
       <StepNav
+        locale={locale}
         onBack={onBack}
         onContinue={onConfirm}
-        continueLabel="Randevu Talebini Gönder"
+        continueLabel={dict.submitLabel}
       />
     </div>
   );
 }
 
 function StepNav({
+  locale,
   onBack,
   onContinue,
   continueType = "button",
   continueDisabled,
-  continueLabel = "Devam Et",
+  continueLabel,
 }: {
+  locale: Locale;
   onBack: () => void;
   onContinue?: () => void;
   continueType?: "button" | "submit";
   continueDisabled?: boolean;
   continueLabel?: string;
 }) {
+  const dict = getDictionary(locale).booking;
   return (
     <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:items-center">
       <button
@@ -632,7 +671,7 @@ function StepNav({
         onClick={onBack}
         className="inline-flex items-center justify-center rounded-full border border-ink/15 px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-ink"
       >
-        Geri
+        {dict.back}
       </button>
       <button
         type={continueType}
@@ -640,7 +679,7 @@ function StepNav({
         disabled={continueDisabled}
         className="inline-flex flex-1 items-center justify-center rounded-full bg-ink px-8 py-4 text-sm font-medium tracking-wide text-cream transition-colors hover:bg-gold disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-ink"
       >
-        {continueLabel}
+        {continueLabel ?? dict.continue}
       </button>
     </div>
   );

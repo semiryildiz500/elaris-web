@@ -1,6 +1,9 @@
 import Reveal from "@/components/reveal";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
-export default function AboutSection() {
+export default function AboutSection({ locale = "tr" }: { locale?: Locale }) {
+  const t = getDictionary(locale).about;
+
   return (
     <section
       id="fethiye-karseri"
@@ -23,10 +26,10 @@ export default function AboutSection() {
         <Reveal>
           <div className="flex flex-col gap-6">
             <span className="text-xs font-medium uppercase tracking-[0.35em] text-gold-light">
-              Kurucu
+              {t.eyebrow}
             </span>
             <h2 className="font-serif text-3xl leading-snug sm:text-4xl">
-              Fethiye Karseri
+              {t.heading}
             </h2>
             <div className="h-px w-16 bg-gold/60" />
           </div>
@@ -34,25 +37,13 @@ export default function AboutSection() {
 
         <div className="space-y-6 text-base leading-relaxed text-cream/75 sm:text-lg sm:leading-[1.9]">
           <Reveal delay={120}>
-            <p>
-              Fethiye Karseri, yıllardır sürdürdüğü kişisel ve profesyonel
-              yolculuğunu; enerji çalışmaları, farkındalık ve kendi dönüşüm
-              deneyimleriyle harmanlayan bir yol arkadaşıdır.
-            </p>
+            <p>{t.paragraph1}</p>
           </Reveal>
           <Reveal delay={200}>
-            <p>
-              ELARIS&apos;te her çalışma; kişinin kendisiyle yeniden temas
-              kurabileceği, yargılanmadan dinlenebileceği ve kendi
-              farkındalığını keşfedebileceği sakin bir alan sunar.
-            </p>
+            <p>{t.paragraph2}</p>
           </Reveal>
           <Reveal delay={280}>
-            <p>
-              Burada hazır cevaplar ya da kesin sonuç vaatleri yoktur. Amaç;
-              size ne yapmanız gerektiğini söylemek değil, kendi
-              cevaplarınıza yaklaşabileceğiniz alanı açmaktır.
-            </p>
+            <p>{t.paragraph3}</p>
           </Reveal>
         </div>
       </div>

@@ -4,9 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import type { Service } from "@/lib/data";
 import ServiceDetailModal from "@/components/service-detail-modal";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
-export default function ServiceCard({ service }: { service: Service }) {
+export default function ServiceCard({
+  service,
+  locale = "tr",
+}: {
+  service: Service;
+  locale?: Locale;
+}) {
   const [open, setOpen] = useState(false);
+  const t = getDictionary(locale).services;
+  const homeBase = locale === "en" ? "/en" : "";
 
   return (
     <>
@@ -29,13 +38,13 @@ export default function ServiceCard({ service }: { service: Service }) {
             onClick={() => setOpen(true)}
             className="text-sm font-medium text-ink/80 underline decoration-gold/50 underline-offset-4 transition-colors hover:text-gold"
           >
-            Detaylar &amp; Ön Bilgilendirme
+            {t.detailsButton}
           </button>
           <Link
-            href={`/?service=${service.slug}#randevu`}
+            href={`${homeBase}/?service=${service.slug}#randevu`}
             className="whitespace-nowrap rounded-full border border-gold bg-gold/5 px-4 py-2 text-xs font-semibold tracking-wide text-gold transition-colors group-hover:bg-gold group-hover:text-cream"
           >
-            Randevu Al
+            {t.bookButton}
           </Link>
         </div>
       </div>
@@ -44,6 +53,7 @@ export default function ServiceCard({ service }: { service: Service }) {
         service={service}
         open={open}
         onClose={() => setOpen(false)}
+        locale={locale}
       />
     </>
   );

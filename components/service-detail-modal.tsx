@@ -3,16 +3,21 @@
 import { useEffect } from "react";
 import type { Service } from "@/lib/data";
 import ServiceDetailContent from "@/components/service-detail-content";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
 export default function ServiceDetailModal({
   service,
   open,
   onClose,
+  locale = "tr",
 }: {
   service: Service;
   open: boolean;
   onClose: () => void;
+  locale?: Locale;
 }) {
+  const t = getDictionary(locale).serviceDetail;
+
   useEffect(() => {
     if (!open) return;
 
@@ -45,13 +50,13 @@ export default function ServiceDetailModal({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Kapat"
+          aria-label={t.closeAria}
           className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition-colors hover:border-gold hover:text-gold"
         >
           ✕
         </button>
 
-        <ServiceDetailContent service={service} headingLevel="h2" />
+        <ServiceDetailContent service={service} headingLevel="h2" locale={locale} />
       </div>
     </div>
   );

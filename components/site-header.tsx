@@ -2,20 +2,26 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { getDictionary, type Locale } from "@/lib/i18n";
+import LanguageSwitcher from "@/components/language-switcher";
+import SetHtmlLang from "@/components/set-html-lang";
+import CookieBanner from "@/components/cookie-banner";
 
-const navLinks = [
-  { href: "/", label: "Ana Sayfa" },
-  { href: "#fethiye-karseri", label: "Fethiye Karseri" },
-  { href: "#calismalar", label: "ELARIS Çalışmaları" },
-  { href: "#ogretiler", label: "Öğretiler" },
-  { href: "#workshoplar", label: "Workshoplar" },
-  { href: "#sertifikalar", label: "Sertifikalar" },
-  { href: "#iletisim", label: "İletişim" },
-];
-
-export default function SiteHeader() {
+export default function SiteHeader({ locale = "tr" }: { locale?: Locale }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const t = getDictionary(locale).nav;
+  const homeBase = locale === "en" ? "/en" : "";
+
+  const navLinks = [
+    { href: `${homeBase}/`, label: t.home },
+    { href: `${homeBase}/#fethiye-karseri`, label: t.fethiyeKarseri },
+    { href: `${homeBase}/#calismalar`, label: t.sessions },
+    { href: `${homeBase}/#ogretiler`, label: t.teachings },
+    { href: `${homeBase}/#workshoplar`, label: t.workshops },
+    { href: `${homeBase}/#sertifikalar`, label: t.certificates },
+    { href: `${homeBase}/#iletisim`, label: t.contact },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -32,7 +38,10 @@ export default function SiteHeader() {
   }, [open]);
 
   return (
-    <header
+    <>
+      <SetHtmlLang locale={locale} />
+      <CookieBanner locale={locale} />
+      <header
       className={`sticky top-0 z-50 transition-colors duration-300 ${
         scrolled
           ? "bg-cream/90 backdrop-blur-md border-b border-beige"
@@ -41,7 +50,7 @@ export default function SiteHeader() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-6 sm:px-10 lg:px-10 xl:px-16">
         <Link
-          href="/"
+          href={locale === "en" ? "/en" : "/"}
           className="shrink-0 font-serif text-2xl tracking-[0.22em] text-ink"
           onClick={() => setOpen(false)}
         >
@@ -60,12 +69,13 @@ export default function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden shrink-0 lg:block">
+        <div className="hidden shrink-0 items-center gap-5 lg:flex">
+          <LanguageSwitcher locale={locale} />
           <a
-            href="#randevu"
+            href={`${homeBase}/#randevu`}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-ink/15 px-6 py-2.5 text-[13px] font-medium uppercase tracking-[0.1em] text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-cream xl:px-7 xl:tracking-[0.12em]"
           >
-            Randevu Al
+            {t.bookSession}
           </a>
         </div>
 
@@ -96,7 +106,7 @@ export default function SiteHeader() {
 
       <div
         className={`overflow-hidden transition-[max-height] duration-300 ease-in-out lg:hidden ${
-          open ? "max-h-[32rem]" : "max-h-0"
+          open ? "max-h-[36rem]" : "max-h-0"
         }`}
       >
         <nav className="flex flex-col gap-1 border-t border-beige bg-cream px-6 py-6 sm:px-10">
@@ -111,14 +121,18 @@ export default function SiteHeader() {
             </a>
           ))}
           <a
-            href="#randevu"
+            href={`${homeBase}/#randevu`}
             onClick={() => setOpen(false)}
             className="mt-4 inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-medium tracking-wide text-cream"
           >
-            Randevu Al
+            {t.bookSession}
           </a>
+          <div className="mt-6 flex items-center justify-center border-t border-beige pt-5">
+            <LanguageSwitcher locale={locale} />
+          </div>
         </nav>
       </div>
-    </header>
+      </header>
+    </>
   );
 }

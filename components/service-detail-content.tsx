@@ -1,59 +1,64 @@
 import Link from "next/link";
 import type { Service } from "@/lib/data";
 import MedicalDisclaimer from "@/components/medical-disclaimer";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
 export default function ServiceDetailContent({
   service,
   headingLevel = "h1",
+  locale = "tr",
 }: {
   service: Service;
   headingLevel?: "h1" | "h2";
+  locale?: Locale;
 }) {
   const Heading = headingLevel;
+  const t = getDictionary(locale).serviceDetail;
+  const homeBase = locale === "en" ? "/en" : "";
 
   return (
     <div>
       <p className="text-xs font-medium uppercase tracking-[0.35em] text-gold">
-        Detaylar &amp; Ön Bilgilendirme
+        {t.eyebrow}
       </p>
       <Heading className="mt-4 font-serif text-2xl leading-snug text-ink sm:text-3xl">
         {service.name}
       </Heading>
 
       <div className="mt-6 grid grid-cols-2 gap-4">
-        <InfoCard label="Süre" value={service.duration} />
-        <InfoCard label="Ücret" value={service.price} />
+        <InfoCard label={t.durationLabel} value={service.duration} />
+        <InfoCard label={t.priceLabel} value={service.price} />
       </div>
 
       <div className="mt-8 space-y-8">
-        <DetailSection heading="Açıklama">
+        <DetailSection heading={t.descriptionHeading}>
           <p>{service.purpose}</p>
         </DetailSection>
 
-        <DetailSection heading="Uygulama Şekli">
+        <DetailSection heading={t.methodHeading}>
           <p>{service.method}</p>
         </DetailSection>
 
-        <DetailSection heading="İptal / Değişiklik Bilgisi">
+        <DetailSection heading={t.cancellationHeading}>
           <p>
             {service.cancellationInfo}{" "}
             <Link
-              href="/yasal/iptal-degisiklik-cayma-iade-politikasi"
+              href={`${homeBase}/yasal/iptal-degisiklik-cayma-iade-politikasi`}
               className="text-gold underline underline-offset-2"
             >
-              Politikayı görüntüle
+              {t.viewPolicy}
             </Link>
             .
           </p>
         </DetailSection>
 
-        <MedicalDisclaimer />
+        <MedicalDisclaimer locale={locale} />
 
         <Link
-          href={`/?service=${service.slug}#randevu`}
+          href={`${homeBase}/?service=${service.slug}#randevu`}
           className="inline-flex w-full items-center justify-center rounded-full bg-ink px-9 py-4 text-sm font-medium tracking-wide text-cream transition-colors hover:bg-gold sm:w-auto"
         >
-          Randevu Al
+          {t.bookButton}
         </Link>
       </div>
     </div>

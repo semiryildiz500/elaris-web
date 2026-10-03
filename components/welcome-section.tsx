@@ -1,6 +1,9 @@
 import Reveal from "@/components/reveal";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
-export default function WelcomeSection() {
+export default function WelcomeSection({ locale = "tr" }: { locale?: Locale }) {
+  const t = getDictionary(locale).welcome;
+
   return (
     <section
       id="ogretiler"
@@ -8,32 +11,22 @@ export default function WelcomeSection() {
     >
       <Reveal>
         <p className="text-center text-xs font-medium uppercase tracking-[0.35em] text-gold">
-          Elaris&apos;e Hoş Geldiniz
+          {t.eyebrow}
         </p>
       </Reveal>
 
       <Reveal delay={100}>
         <h2 className="mt-6 text-center font-serif text-3xl leading-snug text-ink sm:text-4xl">
-          Farkındalığa alan açan bir yaklaşım
+          {t.heading}
         </h2>
       </Reveal>
 
       <div className="mt-8 space-y-5 text-center text-base leading-relaxed text-ink/80 sm:text-lg">
         <Reveal delay={160}>
-          <p>
-            ELARIS, kendinizle kurduğunuz ilişkiyi derinleştirmek isteyenler
-            için tasarlanmış bir enerji çalışmaları alanıdır. Her seans,
-            bireysel ritminize saygı duyan, yargılamayan bir yaklaşımla
-            yürütülür; tıbbi ya da psikolojik bir tedavi, teşhis veya kesin
-            sonuç iddiası taşımaz.
-          </p>
+          <p>{t.paragraph1}</p>
         </Reveal>
         <Reveal delay={240}>
-          <p>
-            İster ilk kez adım atıyor olun, ister yolculuğunuza devam ediyor
-            olun; ELARIS sizi olduğunuz gibi karşılar ve kendi iç
-            bilgeliğinizle temas kurmanız için sakin bir alan açar.
-          </p>
+          <p>{t.paragraph2}</p>
         </Reveal>
       </div>
     </section>

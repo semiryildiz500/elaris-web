@@ -5,32 +5,40 @@ export const metadata: Metadata = {
   title: "İptal, Değişiklik, Cayma ve İade Politikası | ELARIS",
 };
 
-/**
- * TODO (ödeme entegrasyonu öncesi tamamlanmalı):
- * Fethiye Karseri tarafından henüz kesin bir iptal/değişiklik süresi ve
- * iade koşulu belirlenmemiştir. Aşağıdaki [DOLDURULACAK] alanları,
- * gerçek ödeme sağlayıcısı (ör. PayTR) bağlanmadan önce iş sahibiyle
- * birlikte netleştirilip doldurulmalı ve bir hukuk danışmanı tarafından
- * incelenmelidir. Rastgele bir süre (ör. "24 saat") varsayılmamalıdır.
- */
+// TODO: İade süresi/yöntemi (ör. "X iş günü içinde aynı ödeme yöntemine")
+// gerçek ödeme sağlayıcısı bağlandığında netleştirilip doldurulmalıdır.
 export default function CancellationPolicyPage() {
   return (
     <LegalPage title="İptal, Değişiklik, Cayma ve İade Politikası">
-      <LegalSection heading="1. Randevu İptali ve Değişikliği">
+      <LegalSection heading="1. Randevu İptali ve İade Kuralı">
         <p>
-          Randevunuzu iptal etmek veya ertelemek için, planlanan seans
-          saatinden en az{" "}
-          <FillIn /> önce bildirimde bulunmanız gerekmektedir. Bildirim
-          için randevu onayında belirtilen iletişim kanalı üzerinden bize
-          ulaşabilirsiniz.
+          Randevu saatinden <strong>en az 24 saat önce</strong> yapılan
+          iptallerde, ödenen hizmet bedelinin tamamı iade edilir.
+        </p>
+        <p>
+          Randevu saatine <strong>24 saatten az</strong> süre kala yapılan
+          iptallerde ücret iadesi yapılmaz.
+        </p>
+        <p className="text-sm text-ink/60">
+          Bu ticari iptal/iade kuralı, aşağıdaki 3. maddede düzenlenen
+          yasal cayma hakkınız dahil, yürürlükteki mevzuattan doğan ve
+          sözleşmeyle ortadan kaldırılamayacak haklarınızı ortadan
+          kaldırmaz veya sınırlamaz.
         </p>
       </LegalSection>
 
-      <LegalSection heading="2. Geç İptal ve Katılım Sağlanmaması">
+      <LegalSection heading="2. Randevu Değişikliği">
         <p>
-          Belirtilen süreden daha geç yapılan iptallerde veya randevuya
-          katılım sağlanmaması durumunda uygulanacak koşullar:{" "}
-          <FillIn />.
+          Randevu değişikliği talepleri WhatsApp üzerinden iletilebilir:{" "}
+          <a
+            href="https://wa.me/905348843774"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold underline underline-offset-2"
+          >
+            +90 534 884 37 74
+          </a>
+          .
         </p>
       </LegalSection>
 
@@ -53,15 +61,25 @@ export default function CancellationPolicyPage() {
       <LegalSection heading="4. Cayma Hakkının Kullanımı">
         <p>
           Cayma hakkınızı kullanmak için randevu onayında belirtilen
-          iletişim kanalı üzerinden veya <FillIn /> adresine yazılı
-          bildirimde bulunmanız yeterlidir.
+          iletişim kanalı üzerinden veya{" "}
+          <a
+            href="https://wa.me/905348843774"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold underline underline-offset-2"
+          >
+            WhatsApp (+90 534 884 37 74)
+          </a>{" "}
+          üzerinden yazılı bildirimde bulunmanız yeterlidir.
         </p>
       </LegalSection>
 
       <LegalSection heading="5. İade Koşulu">
         <p>
           Cayma hakkının süresi içinde ve usulüne uygun kullanılması
-          hâlinde uygulanacak iade koşulu ve süresi: <FillIn />.
+          hâlinde, 1. maddede belirtilen 24 saat kuralına bakılmaksızın,
+          ödenen hizmet bedelinin tamamı iade edilir. İade süresi ve
+          yöntemine ilişkin detaylar: <FillIn />.
         </p>
       </LegalSection>
 

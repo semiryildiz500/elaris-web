@@ -29,6 +29,17 @@ export default function DistanceServiceAgreementPage() {
           items={[
             <>Adres: <FillIn /></>,
             <>E-posta: <FillIn /></>,
+            <>
+              WhatsApp:{" "}
+              <a
+                href="https://wa.me/905348843774"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gold underline underline-offset-2"
+              >
+                +90 534 884 37 74
+              </a>
+            </>,
           ]}
         />
       </LegalSection>

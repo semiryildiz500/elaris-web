@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
-import CookieBanner from "@/components/cookie-banner";
 import "./globals.css";
 
 const display = Cormorant_Garamond({
@@ -15,9 +14,17 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://elarisdanismanlik.com"),
   title: "ELARIS | Fethiye Karseri",
   description:
     "ELARIS, Fethiye Karseri tarafından yönetilen, farkındalık ve enerji çalışmaları için tasarlanmış sakin ve sofistike bir alan.",
+  alternates: {
+    canonical: "/",
+    languages: {
+      tr: "/",
+      en: "/en",
+    },
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -28,7 +35,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-cream font-sans text-ink">
         {children}
-        <CookieBanner />
       </body>
     </html>
   );

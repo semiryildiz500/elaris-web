@@ -11,11 +11,8 @@ export type Service = {
 
 const DEFAULT_METHOD =
   "Çalışma hem online (görüntülü görüşme) hem de yüz yüze olarak uygulanabilir; tercihinizi randevu adımında belirtebilirsiniz.";
-// Not: Kesin iptal/değişiklik süresi henüz belirlenmemiştir. Rastgele bir
-// süre varsayılmaz; detaylar İptal/Cayma/İade Politikası sayfasında
-// [DOLDURULACAK] olarak işaretlenmiştir.
 const DEFAULT_CANCELLATION =
-  "Randevu iptal ve değişiklik koşulları için İptal, Değişiklik, Cayma ve İade Politikası sayfasını inceleyiniz.";
+  "Randevu saatinden en az 24 saat önce yapılan iptallerde ödenen hizmet bedeli iade edilir; 24 saatten az süre kala yapılan iptallerde ücret iadesi yapılmaz. Randevu değişikliği talepleri WhatsApp üzerinden iletilebilir.";
 
 export const services: Service[] = [
   {

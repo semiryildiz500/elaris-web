@@ -7,8 +7,43 @@ import {
   setConsent,
   type ConsentState,
 } from "@/lib/cookie-consent";
+import type { Locale } from "@/lib/i18n";
 
-export default function CookiePreferencesForm() {
+const COPY = {
+  tr: {
+    necessaryTitle: "Gerekli Çerezler",
+    necessaryDesc:
+      "Sitenin temel işlevleri ve çerez tercihinizin hatırlanması için zorunludur.",
+    analyticsTitle: "Analitik Çerezler",
+    analyticsDesc:
+      "Site kullanımını anlamamıza yardımcı olur. Onayınız olmadan çalıştırılmaz.",
+    marketingTitle: "Pazarlama Çerezleri",
+    marketingDesc:
+      "İlgi alanlarınıza yönelik içerik/iletişim için kullanılabilir. Onayınız olmadan çalıştırılmaz.",
+    save: "Tercihleri Kaydet",
+    saved: "Tercihleriniz kaydedildi.",
+  },
+  en: {
+    necessaryTitle: "Necessary Cookies",
+    necessaryDesc:
+      "Required for the site's core functions and for remembering your cookie preference.",
+    analyticsTitle: "Analytics Cookies",
+    analyticsDesc:
+      "Help us understand site usage. Not run without your consent.",
+    marketingTitle: "Marketing Cookies",
+    marketingDesc:
+      "May be used for content/communication relevant to your interests. Not run without your consent.",
+    save: "Save Preferences",
+    saved: "Your preferences have been saved.",
+  },
+} as const;
+
+export default function CookiePreferencesForm({
+  locale = "tr",
+}: {
+  locale?: Locale;
+}) {
+  const t = COPY[locale];
   const [consent, setLocalConsent] = useState<ConsentState>(defaultConsent);
   const [saved, setSaved] = useState(false);
 
@@ -28,14 +63,14 @@ export default function CookiePreferencesForm() {
   return (
     <div className="space-y-6">
       <PreferenceRow
-        title="Gerekli Çerezler"
-        description="Sitenin temel işlevleri ve çerez tercihinizin hatırlanması için zorunludur."
+        title={t.necessaryTitle}
+        description={t.necessaryDesc}
         checked
         disabled
       />
       <PreferenceRow
-        title="Analitik Çerezler"
-        description="Site kullanımını anlamamıza yardımcı olur. Onayınız olmadan çalıştırılmaz."
+        title={t.analyticsTitle}
+        description={t.analyticsDesc}
         checked={consent.analytics}
         onChange={(v) => {
           setLocalConsent((c) => ({ ...c, analytics: v }));
@@ -43,8 +78,8 @@ export default function CookiePreferencesForm() {
         }}
       />
       <PreferenceRow
-        title="Pazarlama Çerezleri"
-        description="İlgi alanlarınıza yönelik içerik/iletişim için kullanılabilir. Onayınız olmadan çalıştırılmaz."
+        title={t.marketingTitle}
+        description={t.marketingDesc}
         checked={consent.marketing}
         onChange={(v) => {
           setLocalConsent((c) => ({ ...c, marketing: v }));
@@ -58,13 +93,9 @@ export default function CookiePreferencesForm() {
           onClick={handleSave}
           className="inline-flex items-center justify-center rounded-full bg-ink px-8 py-3 text-sm font-medium tracking-wide text-cream transition-colors hover:bg-gold"
         >
-          Tercihleri Kaydet
+          {t.save}
         </button>
-        {saved && (
-          <span className="text-sm text-ink/60">
-            Tercihleriniz kaydedildi.
-          </span>
-        )}
+        {saved && <span className="text-sm text-ink/60">{t.saved}</span>}
       </div>
     </div>
   );

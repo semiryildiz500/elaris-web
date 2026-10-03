@@ -1,6 +1,15 @@
 import type { Workshop } from "@/lib/data";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
-export default function WorkshopCard({ workshop }: { workshop: Workshop }) {
+export default function WorkshopCard({
+  workshop,
+  locale = "tr",
+}: {
+  workshop: Workshop;
+  locale?: Locale;
+}) {
+  const t = getDictionary(locale).workshops;
+
   return (
     <div className="group flex h-full flex-col rounded-2xl border border-ink/10 bg-white/70 p-8 shadow-[0_10px_30px_-22px_rgba(43,36,32,0.3)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/50 hover:shadow-[0_20px_40px_-20px_rgba(176,141,87,0.55)]">
       <div className="flex flex-1 flex-col gap-3">
@@ -19,13 +28,13 @@ export default function WorkshopCard({ workshop }: { workshop: Workshop }) {
             href={`#${workshop.slug}`}
             className="text-sm font-medium text-ink/80 underline decoration-gold/50 underline-offset-4 transition-colors hover:text-gold"
           >
-            Detay
+            {t.detailButton}
           </a>
           <a
             href="#randevu"
             className="whitespace-nowrap rounded-full border border-gold bg-gold/5 px-4 py-2 text-xs font-semibold tracking-wide text-gold transition-colors group-hover:bg-gold group-hover:text-cream"
           >
-            Katılım / Rezervasyon
+            {t.bookButton}
           </a>
         </div>
       </div>

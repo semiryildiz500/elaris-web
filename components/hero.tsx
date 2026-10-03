@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Reveal from "@/components/reveal";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
-export default function Hero() {
+export default function Hero({ locale = "tr" }: { locale?: Locale }) {
+  const t = getDictionary(locale).hero;
+
   return (
     <section className="relative flex aspect-video min-h-[460px] w-full items-center overflow-hidden bg-cream sm:min-h-[560px] lg:min-h-0 xl:max-h-[880px]">
       {/* tam kompozisyon, kırpılmadan (görsel oranı ~16:9, container ile eşleşiyor) */}
@@ -45,11 +48,11 @@ export default function Hero() {
           <Reveal>
             <div className="mb-8 flex items-center gap-4 lg:mb-12">
               <span className="font-serif text-lg italic tracking-[0.08em] text-bronze">
-                Elaris
+                {t.signature}
               </span>
               <span className="h-px max-w-16 flex-1 bg-gold/40" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.35em] text-ink">
-                Fethiye Karseri
+                {t.founderLabel}
               </span>
             </div>
           </Reveal>
@@ -57,10 +60,10 @@ export default function Hero() {
           <Reveal delay={120}>
             <h1 className="font-serif text-[2.5rem] leading-[1.08] sm:text-6xl md:text-[4.2rem] lg:leading-[1.05]">
               <span className="block font-semibold text-ink">
-                Kendine dönüş,
+                {t.titleLine1}
               </span>
               <span className="mt-1 block font-normal italic text-bronze sm:mt-2">
-                bazen sadece hatırlamaktır.
+                {t.titleLine2}
               </span>
             </h1>
           </Reveal>
@@ -76,9 +79,7 @@ export default function Hero() {
                 }}
               />
               <p className="mt-7 max-w-md text-balance text-base leading-relaxed text-ink/90 sm:mt-9 sm:text-lg">
-                ELARIS, kendi iç dünyanızla yeniden temas kurmanız için sakin,
-                saygılı ve özenle tasarlanmış bir alan sunar. Her çalışma,
-                size ait olan farkındalığı yeniden hatırlamanıza eşlik eder.
+                {t.paragraph}
               </p>
             </div>
           </Reveal>
@@ -89,13 +90,13 @@ export default function Hero() {
                 href="#randevu"
                 className="inline-flex w-full items-center justify-center rounded-full bg-ink px-9 py-4 text-sm font-medium tracking-wide text-cream transition-colors duration-300 hover:bg-gold sm:w-auto"
               >
-                Randevu Al
+                {t.bookButton}
               </a>
               <a
                 href="#calismalar"
                 className="group inline-flex w-full items-center justify-center gap-2 border-b border-transparent pb-1 text-sm font-medium tracking-wide text-ink transition-colors duration-300 hover:border-gold hover:text-gold sm:w-auto"
               >
-                Çalışmaları Keşfet
+                {t.exploreButton}
                 <span
                   aria-hidden
                   className="transition-transform duration-300 group-hover:translate-x-1"

@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: "Ön Bilgilendirme | ELARIS",
 };
 
+// TODO: Henüz bilinmeyen alanlar — yayın öncesi tamamlanmalı: açık adres,
+// e-posta, fiyatlara vergi (KDV) dahil olup olmadığı bilgisi.
 export default function PreInformationPage() {
   return (
     <LegalPage title="Ön Bilgilendirme">
@@ -15,7 +17,17 @@ export default function PreInformationPage() {
             <>Ad Soyad / Marka: Fethiye Karseri / ELARIS</>,
             <>Web sitesi: elarisdanismanlik.com</>,
             <>Adres: <FillIn /></>,
-            <>Telefon: <FillIn /></>,
+            <>
+              Telefon / WhatsApp:{" "}
+              <a
+                href="https://wa.me/905348843774"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gold underline underline-offset-2"
+              >
+                +90 534 884 37 74
+              </a>
+            </>,
             <>E-posta: <FillIn /></>,
           ]}
         />
@@ -47,9 +59,13 @@ export default function PreInformationPage() {
         </p>
       </LegalSection>
 
-      <LegalSection heading="4. Cayma Hakkı">
+      <LegalSection heading="4. İptal, Değişiklik ve Cayma Hakkı">
         <p>
-          Cayma hakkının kullanım koşulları, süresi ve istisnaları için{" "}
+          Randevu saatinden en az 24 saat önce yapılan iptallerde ödenen
+          hizmet bedeli iade edilir; 24 saatten az süre kala yapılan
+          iptallerde ücret iadesi yapılmaz. Randevu değişikliği talepleri
+          WhatsApp üzerinden iletilebilir. Yasal cayma hakkınız dahil tüm
+          koşullar, süre ve istisnalar için{" "}
           <a
             href="/yasal/iptal-degisiklik-cayma-iade-politikasi"
             className="text-gold underline underline-offset-2"
@@ -62,9 +78,17 @@ export default function PreInformationPage() {
 
       <LegalSection heading="5. Şikâyet ve İtirazlar">
         <p>
-          Hizmetle ilgili şikâyet ve itirazlarınızı <FillIn /> adresine
-          iletebilir; mevzuatın öngördüğü hâllerde Tüketici Hakem
-          Heyetleri&apos;ne veya Tüketici Mahkemeleri&apos;ne
+          Hizmetle ilgili şikâyet ve itirazlarınızı{" "}
+          <a
+            href="https://wa.me/905348843774"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold underline underline-offset-2"
+          >
+            WhatsApp (+90 534 884 37 74)
+          </a>{" "}
+          üzerinden iletebilir; mevzuatın öngördüğü hâllerde Tüketici
+          Hakem Heyetleri&apos;ne veya Tüketici Mahkemeleri&apos;ne
           başvurabilirsiniz.
         </p>
       </LegalSection>

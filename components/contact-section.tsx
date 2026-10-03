@@ -1,23 +1,27 @@
 import Reveal from "@/components/reveal";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
-const whatsappMessage = encodeURIComponent(
-  "Merhaba, ELARIS hakkında bilgi almak istiyorum."
-);
-const whatsappHref = `https://wa.me/905348843774?text=${whatsappMessage}`;
 const instagramHref = "https://www.instagram.com/kalpten.uyanis/";
 
-export default function ContactSection() {
+export default function ContactSection({
+  locale = "tr",
+}: {
+  locale?: Locale;
+}) {
+  const t = getDictionary(locale).contact;
+  const whatsappHref = `https://wa.me/905348843774?text=${encodeURIComponent(t.whatsappMessage)}`;
+
   return (
     <section className="py-20 sm:py-28">
       <div className="mx-auto max-w-3xl px-6 text-center sm:px-10">
         <Reveal>
           <p className="text-xs font-medium uppercase tracking-[0.35em] text-gold">
-            İletişim
+            {t.eyebrow}
           </p>
         </Reveal>
         <Reveal delay={100}>
           <h2 className="mt-6 font-serif text-2xl leading-snug text-ink sm:text-3xl">
-            Size ulaşmanın en kolay yolu
+            {t.heading}
           </h2>
         </Reveal>
 
@@ -28,7 +32,7 @@ export default function ContactSection() {
               className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-gold/50 px-8 py-3.5 text-sm font-medium tracking-wide text-ink transition-colors hover:border-gold hover:bg-gold hover:text-cream sm:w-auto"
             >
               <WhatsAppIcon />
-              WhatsApp
+              {t.whatsapp}
             </a>
             <a
               href={instagramHref}
@@ -37,7 +41,7 @@ export default function ContactSection() {
               className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-gold/50 px-8 py-3.5 text-sm font-medium tracking-wide text-ink transition-colors hover:border-gold hover:bg-gold hover:text-cream sm:w-auto"
             >
               <InstagramIcon />
-              Instagram
+              {t.instagram}
             </a>
           </div>
         </Reveal>
