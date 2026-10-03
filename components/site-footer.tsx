@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { legalPages } from "@/lib/legal-pages";
+
 export default function SiteFooter() {
   return (
     <footer id="iletisim" className="border-t border-beige bg-ink text-cream">
@@ -55,6 +58,24 @@ export default function SiteFooter() {
             </li>
           </ul>
         </div>
+      </div>
+
+      <div className="border-t border-cream/10 px-6 py-8 sm:px-10">
+        <h3 className="text-xs font-medium uppercase tracking-[0.25em] text-gold-light">
+          Yasal
+        </h3>
+        <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+          {legalPages.map((page) => (
+            <li key={page.slug}>
+              <Link
+                href={`/yasal/${page.slug}`}
+                className="text-xs text-cream/60 transition-colors hover:text-gold"
+              >
+                {page.shortTitle}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className="border-t border-cream/10 py-6">

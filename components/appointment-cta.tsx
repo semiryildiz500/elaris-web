@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Reveal from "@/components/reveal";
 import AppointmentForm from "@/components/appointment-form";
 
@@ -26,7 +27,9 @@ export default function AppointmentCta() {
         </Reveal>
 
         <Reveal delay={260} className="mt-12">
-          <AppointmentForm />
+          <Suspense fallback={null}>
+            <AppointmentForm />
+          </Suspense>
         </Reveal>
       </div>
     </section>

@@ -5,7 +5,7 @@ import ServicesSection from "@/components/services-section";
 import AboutSection from "@/components/about-section";
 import WorkshopsSection from "@/components/workshops-section";
 import CertificatesSection from "@/components/certificates-section";
-import InstagramSection from "@/components/instagram-section";
+import ContactSection from "@/components/contact-section";
 import AppointmentCta from "@/components/appointment-cta";
 import SiteFooter from "@/components/site-footer";
 
@@ -20,7 +20,7 @@ export default function Home() {
         <WelcomeSection />
         <WorkshopsSection />
         <CertificatesSection />
-        <InstagramSection />
+        <ContactSection />
         <AppointmentCta />
       </main>
       <SiteFooter />

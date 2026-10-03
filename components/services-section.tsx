@@ -19,8 +19,8 @@ export default function ServicesSection() {
         <Reveal delay={180}>
           <p className="mx-auto mt-6 max-w-2xl text-center text-base leading-relaxed text-ink/65">
             Tüm çalışmalar hem online hem yüz yüze olarak
-            gerçekleştirilebilir. Bireysel seanslar şimdilik 30 dakika olarak
-            planlanmaktadır.
+            gerçekleştirilebilir. Her çalışmanın süresi ve ücreti ilgili
+            kartta belirtilmiştir.
           </p>
         </Reveal>
 
