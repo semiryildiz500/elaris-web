@@ -24,33 +24,21 @@ export default function ServiceDetailContent({
       <Heading className="mt-4 font-serif text-2xl leading-snug text-ink sm:text-3xl">
         {service.name}
       </Heading>
-
-      <div className="mt-6 grid grid-cols-2 gap-4">
-        <InfoCard label={t.durationLabel} value={service.duration} />
-        <InfoCard label={t.priceLabel} value={service.price} />
-      </div>
+      <p className="mt-4 text-base leading-relaxed text-ink/70">
+        {service.description}
+      </p>
 
       <div className="mt-8 space-y-8">
-        <DetailSection heading={t.descriptionHeading}>
-          <p>{service.purpose}</p>
-        </DetailSection>
+        <DetailSection heading={t.whatHeading} paragraphs={service.details.what} />
+        <DetailSection heading={t.topicsHeading} paragraphs={service.details.topics} />
+        <DetailSection heading={t.processHeading} paragraphs={service.details.process} />
+        <DetailSection heading={t.audienceHeading} paragraphs={service.details.audience} />
+        <DetailSection heading={t.afterHeading} paragraphs={service.details.after} />
 
-        <DetailSection heading={t.methodHeading}>
-          <p>{service.method}</p>
-        </DetailSection>
-
-        <DetailSection heading={t.cancellationHeading}>
-          <p>
-            {service.cancellationInfo}{" "}
-            <Link
-              href={`${homeBase}/yasal/iptal-degisiklik-cayma-iade-politikasi`}
-              className="text-gold underline underline-offset-2"
-            >
-              {t.viewPolicy}
-            </Link>
-            .
-          </p>
-        </DetailSection>
+        <div className="grid grid-cols-2 gap-4">
+          <InfoCard label={t.durationLabel} value={service.duration} />
+          <InfoCard label={t.priceLabel} value={service.price} />
+        </div>
 
         <MedicalDisclaimer locale={locale} />
 
@@ -67,16 +55,18 @@ export default function ServiceDetailContent({
 
 function DetailSection({
   heading,
-  children,
+  paragraphs,
 }: {
   heading: string;
-  children: React.ReactNode;
+  paragraphs: string[];
 }) {
   return (
     <section>
       <h3 className="font-serif text-lg text-ink sm:text-xl">{heading}</h3>
-      <div className="mt-2 text-sm leading-relaxed text-ink/75 sm:text-base">
-        {children}
+      <div className="mt-2 space-y-3 text-sm leading-relaxed text-ink/75 sm:text-base">
+        {paragraphs.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
       </div>
     </section>
   );
