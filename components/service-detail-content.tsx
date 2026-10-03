@@ -7,10 +7,12 @@ export default function ServiceDetailContent({
   service,
   headingLevel = "h1",
   locale = "tr",
+  showHeader = true,
 }: {
   service: Service;
   headingLevel?: "h1" | "h2";
   locale?: Locale;
+  showHeader?: boolean;
 }) {
   const Heading = headingLevel;
   const t = getDictionary(locale).serviceDetail;
@@ -18,13 +20,17 @@ export default function ServiceDetailContent({
 
   return (
     <div>
-      <p className="text-xs font-medium uppercase tracking-[0.35em] text-gold">
-        {t.eyebrow}
-      </p>
-      <Heading className="mt-4 font-serif text-2xl leading-snug text-ink sm:text-3xl">
-        {service.name}
-      </Heading>
-      <p className="mt-4 text-base leading-relaxed text-ink/70">
+      {showHeader && (
+        <>
+          <p className="text-xs font-medium uppercase tracking-[0.35em] text-gold">
+            {t.eyebrow}
+          </p>
+          <Heading className="mt-4 font-serif text-2xl leading-snug text-ink sm:text-3xl">
+            {service.name}
+          </Heading>
+        </>
+      )}
+      <p className={`${showHeader ? "mt-4" : ""} text-base leading-relaxed text-ink/70`}>
         {service.description}
       </p>
 

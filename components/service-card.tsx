@@ -27,7 +27,7 @@ export default function ServiceCard({
           <p className="mt-2 text-xs font-medium uppercase tracking-[0.15em] text-gold">
             {service.duration} · {service.price}
           </p>
-          <p className="mt-4 text-sm leading-relaxed text-ink/75">
+          <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-ink/75">
             {service.description}
           </p>
         </div>
