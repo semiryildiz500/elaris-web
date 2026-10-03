@@ -34,7 +34,7 @@ export default function AppointmentCta({
 
         <Reveal delay={220}>
           <a
-            href="https://wa.me/905348843774"
+            href="https://wa.me/905540140509"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-gold underline underline-offset-2 transition-colors hover:text-ink"

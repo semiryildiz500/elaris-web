@@ -33,12 +33,12 @@ export default function KvkkPageEn() {
             <>
               Phone / WhatsApp:{" "}
               <a
-                href="https://wa.me/905348843774"
+                href="https://wa.me/905540140509"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gold underline underline-offset-2"
               >
-                +90 534 884 37 74
+                +90 554 014 05 09
               </a>
             </>,
             <>Tax No. / National ID No.: <FillIn locale="en" /></>,
@@ -151,12 +151,12 @@ export default function KvkkPageEn() {
           To exercise the rights listed above, you may submit a written
           request to <FillIn locale="en" /> or via{" "}
           <a
-            href="https://wa.me/905348843774"
+            href="https://wa.me/905540140509"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gold underline underline-offset-2"
           >
-            WhatsApp (+90 534 884 37 74)
+            WhatsApp (+90 554 014 05 09)
           </a>
           .
         </p>

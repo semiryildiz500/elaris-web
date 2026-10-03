@@ -364,7 +364,7 @@ export const dictionary = {
       legalHeading: "Legal",
       tagline:
         "A space carefully designed by Fethiye Karseri for awareness and energy work.",
-      instagramLabel: "Instagram · @kalpten.uyanis",
+      instagramLabel: "Instagram · @kapten.uyanis",
       bookButton: "Book a Session",
       copyright: "ELARIS. All rights reserved.",
     },

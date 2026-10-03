@@ -31,12 +31,12 @@ export default function CancellationPolicyPage() {
         <p>
           Randevu değişikliği talepleri WhatsApp üzerinden iletilebilir:{" "}
           <a
-            href="https://wa.me/905348843774"
+            href="https://wa.me/905540140509"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gold underline underline-offset-2"
           >
-            +90 534 884 37 74
+            +90 554 014 05 09
           </a>
           .
         </p>
@@ -63,12 +63,12 @@ export default function CancellationPolicyPage() {
           Cayma hakkınızı kullanmak için randevu onayında belirtilen
           iletişim kanalı üzerinden veya{" "}
           <a
-            href="https://wa.me/905348843774"
+            href="https://wa.me/905540140509"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gold underline underline-offset-2"
           >
-            WhatsApp (+90 534 884 37 74)
+            WhatsApp (+90 554 014 05 09)
           </a>{" "}
           üzerinden yazılı bildirimde bulunmanız yeterlidir.
         </p>

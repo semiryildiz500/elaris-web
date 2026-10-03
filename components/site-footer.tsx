@@ -58,7 +58,7 @@ export default function SiteFooter({ locale = "tr" }: { locale?: Locale }) {
               <a
                 href={
                   isEn
-                    ? "https://www.instagram.com/kalpten.uyanis/"
+                    ? "https://www.instagram.com/kapten.uyanis/"
                     : "https://www.instagram.com/kapten.uyanis"
                 }
                 target="_blank"

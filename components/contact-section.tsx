@@ -1,7 +1,7 @@
 import Reveal from "@/components/reveal";
 import { getDictionary, type Locale } from "@/lib/i18n";
 
-const instagramHref = "https://www.instagram.com/kalpten.uyanis/";
+const instagramHref = "https://www.instagram.com/kapten.uyanis/";
 
 export default function ContactSection({
   locale = "tr",
@@ -9,7 +9,7 @@ export default function ContactSection({
   locale?: Locale;
 }) {
   const t = getDictionary(locale).contact;
-  const whatsappHref = `https://wa.me/905348843774?text=${encodeURIComponent(t.whatsappMessage)}`;
+  const whatsappHref = `https://wa.me/905540140509?text=${encodeURIComponent(t.whatsappMessage)}`;
 
   return (
     <section className="py-20 sm:py-28">

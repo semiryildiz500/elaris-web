@@ -39,12 +39,12 @@ export default function CancellationPolicyPageEn() {
         <p>
           Requests to reschedule a session can be submitted via WhatsApp:{" "}
           <a
-            href="https://wa.me/905348843774"
+            href="https://wa.me/905540140509"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gold underline underline-offset-2"
           >
-            +90 534 884 37 74
+            +90 554 014 05 09
           </a>
           .
         </p>
@@ -73,12 +73,12 @@ export default function CancellationPolicyPageEn() {
           notify us via the contact channel stated in your booking
           confirmation, or via{" "}
           <a
-            href="https://wa.me/905348843774"
+            href="https://wa.me/905540140509"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gold underline underline-offset-2"
           >
-            WhatsApp (+90 534 884 37 74)
+            WhatsApp (+90 554 014 05 09)
           </a>
           .
         </p>

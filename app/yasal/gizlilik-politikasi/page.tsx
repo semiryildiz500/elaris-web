@@ -91,12 +91,12 @@ export default function PrivacyPolicyPage() {
         <p>
           Gizlilik uygulamalarımıza ilişkin sorularınız için{" "}
           <a
-            href="https://wa.me/905348843774"
+            href="https://wa.me/905540140509"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gold underline underline-offset-2"
           >
-            WhatsApp (+90 534 884 37 74)
+            WhatsApp (+90 554 014 05 09)
           </a>{" "}
           üzerinden veya <FillIn /> adresinden bize ulaşabilirsiniz.
         </p>

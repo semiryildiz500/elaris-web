@@ -20,12 +20,12 @@ export default function PreInformationPage() {
             <>
               Telefon / WhatsApp:{" "}
               <a
-                href="https://wa.me/905348843774"
+                href="https://wa.me/905540140509"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gold underline underline-offset-2"
               >
-                +90 534 884 37 74
+                +90 554 014 05 09
               </a>
             </>,
             <>E-posta: <FillIn /></>,
@@ -80,12 +80,12 @@ export default function PreInformationPage() {
         <p>
           Hizmetle ilgili şikâyet ve itirazlarınızı{" "}
           <a
-            href="https://wa.me/905348843774"
+            href="https://wa.me/905540140509"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gold underline underline-offset-2"
           >
-            WhatsApp (+90 534 884 37 74)
+            WhatsApp (+90 554 014 05 09)
           </a>{" "}
           üzerinden iletebilir; mevzuatın öngördüğü hâllerde Tüketici
           Hakem Heyetleri&apos;ne veya Tüketici Mahkemeleri&apos;ne
