@@ -163,16 +163,11 @@ export const dictionary = {
       },
       payment: {
         heading: "Ödeme",
-        note: "Online ödeme altyapımız yakında etkinleştirilecektir. Şu an için randevu talebiniz, ödeme olmadan alınır; onay ve ödeme detayları için sizinle iletişime geçilecektir.",
-        cardNumberPlaceholder: "Kart Numarası",
-        expiryPlaceholder: "AA/YY",
-        cvcPlaceholder: "CVC",
-        submitLabel: "Randevu Talebini Gönder",
-      },
-      success: {
-        title: "Randevu talebiniz alınmıştır.",
-        subtitle: "En kısa sürede sizinle iletişime geçilecektir.",
-        resetButton: "Başka bir randevu talebi oluştur",
+        note: "Ödeme işleminiz Shopier'in güvenli ödeme sayfasında gerçekleştirilecektir. Ödeme doğrulaması tamamlanmadan randevunuz kesinleşmiş sayılmaz.",
+        amountLabel: "Ödenecek Tutar",
+        amountNote: "Shopier sayfasında görünen tutarın bu tutarla aynı olduğunu kontrol ediniz.",
+        submitLabel: "Shopier ile Güvenli Ödemeye Geç",
+        unavailable: "Bu çalışma için ödeme bağlantısı bulunamadı. Lütfen bizimle iletişime geçiniz.",
       },
     },
     cookieBanner: {
@@ -349,16 +344,11 @@ export const dictionary = {
       },
       payment: {
         heading: "Payment",
-        note: "Our online payment system will be activated soon. For now, your booking request is received without payment; we will contact you with confirmation and payment details.",
-        cardNumberPlaceholder: "Card Number",
-        expiryPlaceholder: "MM/YY",
-        cvcPlaceholder: "CVC",
-        submitLabel: "Submit Booking Request",
-      },
-      success: {
-        title: "Your booking request has been received.",
-        subtitle: "We will contact you as soon as possible.",
-        resetButton: "Create another booking request",
+        note: "Your payment will be processed on Shopier's secure payment page. Your appointment is not considered confirmed until payment verification is completed.",
+        amountLabel: "Amount to Pay",
+        amountNote: "Please check that the amount shown on the Shopier page matches this amount.",
+        submitLabel: "Continue to Secure Payment with Shopier",
+        unavailable: "No payment link was found for this session. Please contact us.",
       },
     },
     cookieBanner: {

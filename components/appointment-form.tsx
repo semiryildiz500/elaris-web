@@ -6,8 +6,8 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { services as servicesTr, type Service } from "@/lib/data";
 import { servicesEn } from "@/lib/data.en";
 import { getDictionary, type Locale } from "@/lib/i18n";
+import { getShopierUrl } from "@/lib/payments";
 import {
-  addBookedSlot,
   getAvailableSlots,
   getBookedSlots,
   getIstanbulTodayDateString,
@@ -23,8 +23,7 @@ type Step =
   | "time"
   | "contact"
   | "summary"
-  | "payment"
-  | "success";
+  | "payment";
 
 export default function AppointmentForm({
   locale = "tr",
@@ -58,36 +57,6 @@ export default function AppointmentForm({
 
   const service = services.find((s) => s.slug === serviceSlug);
   const today = useMemo(() => getIstanbulTodayDateString(), []);
-
-  const reset = () => {
-    setServiceSlug(preselectedSlug);
-    setDate("");
-    setTime("");
-    setFullName("");
-    setWhatsapp("");
-    setBookedSlots(getBookedSlots());
-    setStep(preselectedSlug ? "date" : "service");
-  };
-
-  if (step === "success") {
-    return (
-      <div className="rounded-2xl border border-gold/20 bg-white/70 px-8 py-12 text-center shadow-[0_18px_45px_-28px_rgba(43,36,32,0.3)]">
-        <p className="font-serif text-xl leading-relaxed text-ink sm:text-2xl">
-          {dict.success.title}
-        </p>
-        <p className="mt-3 text-base leading-relaxed text-ink/70">
-          {dict.success.subtitle}
-        </p>
-        <button
-          type="button"
-          onClick={reset}
-          className="mt-8 inline-flex items-center justify-center rounded-full border border-gold px-6 py-2.5 text-xs font-semibold uppercase tracking-wide text-gold transition-colors hover:bg-gold hover:text-cream"
-        >
-          {dict.success.resetButton}
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div className="rounded-2xl border border-gold/20 bg-white/70 p-6 text-left shadow-[0_18px_45px_-28px_rgba(43,36,32,0.3)] sm:p-10">
@@ -184,16 +153,11 @@ export default function AppointmentForm({
 
         {step === "payment" && service && (
           <PaymentStep
+            service={service}
+            date={date}
+            time={time}
             locale={locale}
             onBack={() => setStep("summary")}
-            onConfirm={() => {
-              addBookedSlot({
-                date,
-                time,
-                durationMinutes: parseInt(service.duration, 10),
-              });
-              setStep("success");
-            }}
           />
         )}
       </div>
@@ -589,65 +553,78 @@ function SummaryStep({
 }
 
 /**
- * Ödeme adımı — yalnızca arayüz hazırlığıdır. Kart alanları devre dışıdır,
- * hiçbir kart bilgisi toplanmaz veya işlenmez. Gerçek bir ödeme sağlayıcısı
- * (ör. PayTR) bağlandığında, bu adım o sağlayıcının checkout/iframe akışıyla
- * değiştirilmeli ve randevu yalnızca sağlayıcıdan dönen GERÇEK ödeme
- * sonucuna göre kesinleştirilmelidir. Sahte "ödeme başarılı" durumu asla
- * üretilmemelidir — onConfirm burada yalnızca ödemesiz bir randevu talebini
- * kaydeder.
+ * Ödeme adımı — kullanıcıyı Shopier ürün sayfasına yönlendirir. Yönlendirme
+ * ödeme kanıtı DEĞİLDİR; randevu burada kesinleştirilmez ve slot kaydedilmez.
+ * Kesinleştirme yalnızca ileride sunucu tarafı doğrulanmış Shopier
+ * webhook/API sonucuyla yapılmalıdır (bkz. lib/payments.ts).
  */
 function PaymentStep({
+  service,
+  date,
+  time,
   locale,
   onBack,
-  onConfirm,
 }: {
+  service: Service;
+  date: string;
+  time: string;
   locale: Locale;
   onBack: () => void;
-  onConfirm: () => void;
 }) {
-  const dict = getDictionary(locale).booking.payment;
+  const bookingDict = getDictionary(locale).booking;
+  const dict = bookingDict.payment;
+  const summary = bookingDict.summary;
+  const shopierUrl = getShopierUrl(service.duration);
+
   return (
     <div className="flex flex-col gap-5">
       <div className="rounded-xl border border-beige bg-cream/60 p-5">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-ink/50">
           {dict.heading}
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-ink/60">
-          {dict.note}
-        </p>
-
-        <div className="mt-5 space-y-3 opacity-50">
-          <input
-            disabled
-            placeholder={dict.cardNumberPlaceholder}
-            className={`${inputClasses} cursor-not-allowed`}
-          />
-          <div className="grid grid-cols-2 gap-3">
-            <input
-              disabled
-              placeholder={dict.expiryPlaceholder}
-              className={`${inputClasses} cursor-not-allowed`}
-            />
-            <input
-              disabled
-              placeholder={dict.cvcPlaceholder}
-              className={`${inputClasses} cursor-not-allowed`}
-            />
-          </div>
+        <dl className="mt-4 space-y-3">
+          <SummaryRow label={summary.serviceLabel} value={service.name} />
+          <SummaryRow label={summary.dateLabel} value={date} />
+          <SummaryRow label={summary.timeLabel} value={time} />
+          <SummaryRow label={summary.durationLabel} value={service.duration} />
+        </dl>
+        <div className="mt-4 flex items-center justify-between gap-4 border-t border-gold/30 pt-4">
+          <span className="text-xs font-medium uppercase tracking-[0.15em] text-ink/60">
+            {dict.amountLabel}
+          </span>
+          <span className="font-serif text-xl text-ink">{service.price}</span>
         </div>
+        <p className="mt-2 text-xs text-ink/50">{dict.amountNote}</p>
       </div>
 
-      <StepNav
-        locale={locale}
-        onBack={onBack}
-        onContinue={onConfirm}
-        continueLabel={dict.submitLabel}
-      />
+      <p className="rounded-xl border border-gold/20 bg-gold/5 p-4 text-xs leading-relaxed text-ink/70">
+        {dict.note}
+      </p>
+
+      <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:items-center">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex items-center justify-center rounded-full border border-ink/15 px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-ink"
+        >
+          {bookingDict.back}
+        </button>
+        {shopierUrl ? (
+          <a
+            href={shopierUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex flex-1 items-center justify-center rounded-full bg-ink px-8 py-4 text-center text-sm font-medium tracking-wide text-cream transition-colors hover:bg-gold"
+          >
+            {dict.submitLabel} · {service.price}
+          </a>
+        ) : (
+          <p className="flex-1 text-sm text-ink/70">{dict.unavailable}</p>
+        )}
+      </div>
     </div>
   );
 }
-
 function StepNav({
   locale,
   onBack,
