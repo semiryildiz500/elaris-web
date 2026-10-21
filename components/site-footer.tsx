@@ -39,6 +39,14 @@ export default function SiteFooter({ locale = "tr" }: { locale?: Locale }) {
               </a>
             </li>
             <li>
+              <Link
+                href={isEn ? "/en/journal" : "/blog"}
+                className="transition-colors hover:text-gold"
+              >
+                {getDictionary(locale).nav.blog}
+              </Link>
+            </li>
+            <li>
               <a
                 href={`${homeBase}/#randevu`}
                 className="transition-colors hover:text-gold"

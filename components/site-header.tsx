@@ -20,6 +20,7 @@ export default function SiteHeader({ locale = "tr" }: { locale?: Locale }) {
     { href: `${homeBase}/#ogretiler`, label: t.teachings },
     { href: `${homeBase}/#workshoplar`, label: t.workshops },
     { href: `${homeBase}/#sertifikalar`, label: t.certificates },
+    { href: locale === "en" ? "/en/journal" : "/blog", label: t.blog },
     { href: `${homeBase}/#iletisim`, label: t.contact },
   ];
 
@@ -106,7 +107,7 @@ export default function SiteHeader({ locale = "tr" }: { locale?: Locale }) {
 
       <div
         className={`overflow-hidden transition-[max-height] duration-300 ease-in-out lg:hidden ${
-          open ? "max-h-[36rem]" : "max-h-0"
+          open ? "max-h-[42rem]" : "max-h-0"
         }`}
       >
         <nav className="flex flex-col gap-1 border-t border-beige bg-cream px-6 py-6 sm:px-10">

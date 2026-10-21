@@ -13,7 +13,13 @@ export function localeHref(locale: Locale, path: string): string {
 export function togglePathLocale(pathname: string): string {
   if (pathname.startsWith("/en")) {
     const rest = pathname.slice(3);
+    if (rest === "/journal" || rest.startsWith("/journal/")) {
+      return `/blog${rest.slice("/journal".length)}`;
+    }
     return rest === "" ? "/" : rest;
+  }
+  if (pathname === "/blog" || pathname.startsWith("/blog/")) {
+    return `/en/journal${pathname.slice("/blog".length)}`;
   }
   return `/en${pathname === "/" ? "" : pathname}`;
 }
@@ -27,6 +33,7 @@ export const dictionary = {
       teachings: "Öğretiler",
       workshops: "Workshoplar",
       certificates: "Sertifikalar",
+      blog: "BLOG",
       contact: "İletişim",
       bookSession: "Randevu Al",
     },
@@ -210,6 +217,7 @@ export const dictionary = {
       teachings: "TEACHINGS",
       workshops: "WORKSHOPS",
       certificates: "CERTIFICATES",
+      blog: "JOURNAL",
       contact: "CONTACT",
       bookSession: "BOOK A SESSION",
     },
