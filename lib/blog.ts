@@ -19,7 +19,7 @@ export const blogCategories: Record<
   "icsel-denge": { tr: "İçsel Denge", en: "Inner Balance" },
   iliskiler: { tr: "İlişkiler", en: "Relationships" },
   ozdeger: { tr: "Özdeğer", en: "Self-Worth" },
-  "enerji-calismalari": { tr: "Enerji Çalışmaları", en: "Energy Work" },
+  "enerji-calismalari": { tr: "Enerji & Farkındalık", en: "Energy Work" },
   "kendine-donus": { tr: "Kendine Dönüş", en: "Returning to Self" },
 };
 
@@ -30,6 +30,9 @@ export type BlogBlock =
   | { type: "h2"; text: string }
   | { type: "h3"; text: string }
   | { type: "quote"; text: string; cite?: string }
+  | { type: "contrast"; from: string; to: string }
+  | { type: "notice"; heading: string; text: string }
+  | { type: "signature"; name: string; motto: string }
   | { type: "list"; items: string[] }
   | { type: "image"; src: string; alt: string; caption?: string };
 
@@ -53,7 +56,7 @@ export type BlogPost = {
   updatedAt?: string;
   readingMinutes: number;
   /** /public altındaki görsel yolu, örn. "/blog/ornek-kapak.jpg" */
-  coverImage: string;
+  coverImage?: string;
   /** Taslak için false. Varsayılan: true. */
   published?: boolean;
   /** lib/data.ts içindeki çalışma slug'ları. */
@@ -69,7 +72,7 @@ export type LocalizedBlogPost = {
   publishedAt: string;
   updatedAt?: string;
   readingMinutes: number;
-  coverImage: string;
+  coverImage?: string;
   relatedServices: string[];
   locale: Locale;
 } & BlogPostLocaleContent;

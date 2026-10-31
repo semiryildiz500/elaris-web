@@ -65,13 +65,15 @@ export function blogPostMetadata(
       modifiedTime: post.updatedAt ?? post.publishedAt,
       section: post.categoryLabel,
       authors: ["Fethiye Karseri"],
-      images: [{ url: abs(post.coverImage), alt: post.coverAlt }],
+      ...(post.coverImage
+        ? { images: [{ url: abs(post.coverImage), alt: post.coverAlt }] }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [abs(post.coverImage)],
+      ...(post.coverImage ? { images: [abs(post.coverImage)] } : {}),
     },
   };
 }
@@ -80,10 +82,10 @@ export function articleJsonLd(locale: Locale, post: LocalizedBlogPost) {
   const url = abs(blogPostPath(locale, post.slug));
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: post.title,
     description: post.seoDescription ?? post.excerpt,
-    image: [abs(post.coverImage)],
+    ...(post.coverImage ? { image: [abs(post.coverImage)] } : {}),
     datePublished: post.publishedAt,
     dateModified: post.updatedAt ?? post.publishedAt,
     articleSection: post.categoryLabel,

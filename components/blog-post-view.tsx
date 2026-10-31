@@ -6,14 +6,12 @@ import {
   blogBasePath,
   blogCopy,
   blogPostPath,
-  formatBlogDate,
   getAdjacentPosts,
   type BlogBlock,
   type LocalizedBlogPost,
 } from "@/lib/blog";
 import { articleJsonLd } from "@/lib/blog-seo";
 import type { Locale } from "@/lib/i18n";
-import MedicalDisclaimer from "@/components/medical-disclaimer";
 
 function Block({ block }: { block: BlogBlock }) {
   switch (block.type) {
@@ -31,14 +29,50 @@ function Block({ block }: { block: BlogBlock }) {
       );
     case "quote":
       return (
-        <blockquote className="my-10 border-l-2 border-gold/60 pl-6 font-serif text-xl italic leading-relaxed text-ink/85 sm:text-2xl">
-          {block.text}
+        <blockquote className="relative my-12 border-y border-gold/30 bg-white/35 px-6 py-9 text-center font-serif text-xl leading-relaxed text-ink sm:my-16 sm:px-10 sm:py-11 sm:text-2xl">
+          <span className="mx-auto block h-px w-10 bg-gold/70" />
+          <span className="mt-6 block">{block.text}</span>
           {block.cite && (
-            <footer className="mt-3 font-sans text-xs not-italic uppercase tracking-[0.2em] text-ink/50">
+            <footer className="mt-3 font-sans text-xs uppercase tracking-[0.2em] text-ink/50">
               {block.cite}
             </footer>
           )}
         </blockquote>
+      );
+    case "contrast":
+      return (
+        <div className="my-14 border-y border-ink/10 py-10 text-center sm:my-16 sm:py-12">
+          <p className="font-serif text-xl text-ink/55 line-through decoration-gold/60 sm:text-2xl">
+            “{block.from}”
+          </p>
+          <p className="my-4 text-xs font-medium uppercase tracking-[0.28em] text-gold">
+            yerine
+          </p>
+          <p className="font-serif text-2xl leading-snug text-ink sm:text-3xl">
+            “{block.to}”
+          </p>
+        </div>
+      );
+    case "notice":
+      return (
+        <aside className="my-12 rounded-2xl border border-gold/25 bg-gold/5 px-6 py-7 text-sm leading-relaxed text-ink/75 sm:px-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+            {block.heading}
+          </p>
+          <p className="mt-3">{block.text}</p>
+        </aside>
+      );
+    case "signature":
+      return (
+        <div className="my-14 text-center">
+          <div className="mx-auto mb-7 h-px w-14 bg-gold/50" />
+          <p className="font-serif text-2xl tracking-[0.24em] text-ink">
+            {block.name}
+          </p>
+          <p className="mt-3 text-xs uppercase tracking-[0.24em] text-gold">
+            {block.motto}
+          </p>
+        </div>
       );
     case "list":
       return (
@@ -113,27 +147,23 @@ export default function BlogPostView({
           <h1 className="mt-5 font-serif text-3xl leading-tight text-ink sm:text-5xl">
             {post.title}
           </h1>
-          <p className="mt-5 text-sm text-ink/50">
-            <time dateTime={post.publishedAt}>
-              {formatBlogDate(post.publishedAt, locale)}
-            </time>{" "}
-            · {post.readingMinutes} {t.minutes}
-          </p>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-ink/70 sm:text-lg">
             {post.excerpt}
           </p>
         </header>
 
-        <div className="relative mt-10 aspect-[16/10] overflow-hidden rounded-2xl bg-sand sm:mt-14">
-          <Image
-            src={post.coverImage}
-            alt={post.coverAlt}
-            fill
-            priority
-            sizes="(min-width: 768px) 768px, 100vw"
-            className="object-cover"
-          />
-        </div>
+        {post.coverImage && (
+          <div className="relative mt-10 aspect-[16/10] overflow-hidden rounded-2xl bg-sand sm:mt-14">
+            <Image
+              src={post.coverImage}
+              alt={post.coverAlt}
+              fill
+              priority
+              sizes="(min-width: 768px) 768px, 100vw"
+              className="object-cover"
+            />
+          </div>
+        )}
 
         <div className="mt-12 text-base leading-[1.9] text-ink/80 sm:text-lg [&>*:first-child]:mt-0">
           {post.content.map((block, i) => (
@@ -161,19 +191,21 @@ export default function BlogPostView({
           </section>
         )}
 
-        <section className="mt-16 rounded-2xl bg-gradient-to-b from-powder/60 to-sand/60 px-6 py-12 text-center sm:px-12">
+        <section className="mt-16 rounded-2xl border border-gold/20 bg-gradient-to-b from-powder/50 to-sand/50 px-6 py-12 text-center sm:px-12">
           <h2 className="font-serif text-2xl leading-snug text-ink sm:text-3xl">
-            {t.ctaHeading}
+            {locale === "tr" ? "Elaris’te Enerji Çalışmaları" : t.ctaHeading}
           </h2>
           <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-ink/70">
-            {t.ctaText}
+            {locale === "tr"
+              ? "Elaris’in yaklaşımını daha yakından tanıyın; online ve yüz yüze bireysel çalışma seçeneklerini inceleyin."
+              : t.ctaText}
           </p>
-          <a
-            href={`${homeBase}/#randevu`}
+          <Link
+            href={`${homeBase}/#calismalar`}
             className="mt-8 inline-flex items-center justify-center rounded-full bg-ink px-8 py-3 text-sm font-medium tracking-wide text-cream transition-colors hover:bg-ink/85"
           >
-            {t.ctaButton}
-          </a>
+            {locale === "tr" ? "Çalışmaları İncele" : t.ctaButton}
+          </Link>
         </section>
 
         {(previous || next) && (
@@ -209,9 +241,6 @@ export default function BlogPostView({
           </nav>
         )}
 
-        <div className="mt-14">
-          <MedicalDisclaimer locale={locale} />
-        </div>
       </div>
     </article>
   );
